@@ -26,6 +26,47 @@
     <!--   ------------------------
         | Your Page Content Here |
         ------------------------ -->
+        <?php 
+        var_dump($list); 
+        echo "<br><br>";
+        $get = key($_GET);
+
+   echo "<br><br>";
+   var_dump($list['4']['children']);
+   echo "<br><br>";
+
+
+function search_menu($exif, $field)
+{
+    foreach ($exif as $data)
+    {
+        if ($data['url'] == $field)
+            return $data['url'];
+    }
+}
+
+/*$camera = search_exif($list['photo']['exif'], 'model');*/
+
+
+  foreach ($list['4']['children'] as $key=>$v)
+        {
+
+          echo $v['url']."<br>";
+
+          //echo "-->".$camera = search_exif($key['children'], 'vw_setup-productos.php');
+
+       /* echo var_dump($key);
+         echo "<br>";*/
+     /*    echo "<br>";
+         echo  "-->".count(array_search( 'Home',$v));
+         echo "<br>";
+         echo "==> ".key($_GET);
+        */
+
+
+         }
+
+        ?> 
         <center><p style="font-size: 1000%;color:#AED6F1">Escandalia</p></center>
 
     </section>

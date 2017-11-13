@@ -15,6 +15,8 @@ git branch
 # Subimos cambios 
 git add .
 git commit -m "Esto es un cambio en la rama de desarrollo"
+#Subimos cambios a git
+git push origin desarrollo
 
 # Si quiero unir todos los cambios de la rama de desarrollo a la rama master.
 git merge desarrollo
