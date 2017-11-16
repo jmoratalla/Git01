@@ -76,7 +76,7 @@
 
     
 
-   public function getDb() {
+   public static function getDb() {
       require_once("class/pdo_db.php");
       $db = new ConectPDO();
 

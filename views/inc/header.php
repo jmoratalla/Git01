@@ -1,4 +1,3 @@
-<?php // session_start(); ?>
 <!DOCTYPE html>
 <!--
 This is a starter template page. Use this page to start your new project from
@@ -31,10 +30,74 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
 
+  <!-- js propioas -->
+  <!-- jQuery 3 -->
+   <script src="views/bower_components/jquery/dist/jquery.min.js"></script>
+
+  <!-- */ js propios -->
+
   <!-- Google Font -->
   <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+  href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 </head>
+<!-- Control timeout session. -->
+
+<script type="text/javascript">
+
+// Valida tiempo de sesiónS
+var idleTime = 0;
+$(document).ready(function () {
+    //Increment the idle time counter every minute.
+    var idleInterval = setInterval(timerIncrement, 60000); // chequea cada 1 minuto
+
+    //Zero the idle timer on mouse movement.
+    $(this).mousemove(function (e) {
+        idleTime = 0;
+    });
+    $(this).keypress(function (e) {
+        idleTime = 0;
+    });
+    console.log(idleTime);
+});
+
+function timerIncrement() {
+    idleTime = idleTime + 1;
+    console.log(idleTime);
+    if (idleTime >= 10) { // 10 minutes
+        check_session();
+    }
+}
+
+
+function check_session()
+{
+  var datos = { 
+    accion: "check_session",
+    dato: "",
+  };
+  $.ajax({
+    type: "POST",
+    url: "models/check_session.php",
+    data: datos,
+    beforeSend: function(response){     
+    },
+    success: function(response){  
+      var json_obj = JSON.parse(response);
+      var expira = json_obj.expira;
+      var url = json_obj.url;
+      if(expira == '1')
+      {
+        //alert('Tu sesión expiro');
+        window.location.replace(url);
+      }
+
+
+
+    }
+
+  });
+}
+</script>
 <!--
 BODY TAG OPTIONS:
 =================
@@ -56,8 +119,6 @@ desired effect
 |---------------------------------------------------------|
 -->
 <body class="hold-transition skin-blue sidebar-mini">
-<div class="wrapper">
-
   <!-- Main Header -->
   <header class="main-header">
 

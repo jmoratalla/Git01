@@ -3,7 +3,6 @@
  * Inicializa las clases requeridas y comprueba inicio de sesión.
  */
 
-
 //------------------------------------
 error_reporting(E_ALL);
 ini_set('display_errors', '1');
@@ -17,6 +16,7 @@ ini_set('display_errors', '1');
     header('Location: '.redireccion_web::$web_login);
     die();
   }
+
 
 
 

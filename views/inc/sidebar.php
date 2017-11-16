@@ -156,38 +156,29 @@
         {
 
                $progama_activo="";
-             
+               $menu_activo='';
+               // Si tenemos un programa seleccionado.
                if ( key($_GET) ==  redireccion_web::getUrlEncode($v['url']) )
                {
                 $progama_activo="active";
                }
                $menu_activo = 0;
 
-            if (array_key_exists('children', $v))
+            if (array_key_exists('children', $v)) // Si tenemos programas, decimos que es memú
             {
-                /*$menu_activo = var_dump($v['children']);*/
-                $menu_activo=$key;
-                /*foreach ($v['children'] as $r ){
-                        if(  array_search(key($_GET).".php", $r) == 'url'  )
-                        {
-                           $menu_activo = "active menu-open";
-                        }
-                }*/
-
+                              
+                 // Si tenemos un menú seleccionado.
                 foreach ($arr[$key]['children'] as $key2=>$v2)
                 {
                   if($v2['url'] == redireccion_web::getUrlDecode(key($_GET))){
                     $menu_activo = "active menu-open";
                     break;
                   }
-                
-               /*   $menu_activo =  redireccion_web::getUrlDecode(key($_GET)).".php";
-                  break;*/
+              
                 }
 
-
                 $html .= "<li class='treeview ".$menu_activo."'>\n";
-                $html .= '<a href="#" ['.$menu_activo.']>
+                $html .= '<a href="#">
                                 <i class="'.$v['icon'].'"></i>
                                 <span >'.$v['menu_item_name'].'</span>
                                 <span class="pull-right-container">
