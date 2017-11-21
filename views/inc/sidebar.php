@@ -162,7 +162,7 @@
                {
                 $progama_activo="active";
                }
-               $menu_activo = 0;
+               $menu_activo = "";
 
             if (array_key_exists('children', $v)) // Si tenemos programas, decimos que es memú
             {
@@ -180,7 +180,7 @@
                 $html .= "<li class='treeview ".$menu_activo."'>\n";
                 $html .= '<a href="#">
                                 <i class="'.$v['icon'].'"></i>
-                                <span >'.$v['menu_item_name'].'</span>
+                                <span>'.$v['menu_item_name'].'</span>
                                 <span class="pull-right-container">
                                 <i class="fa fa-angle-left pull-right"></i>
                                 </span>
@@ -199,7 +199,7 @@
                   {
                     $html .=  '<i class="fa fa-circle-o"></i>';
                   }
-                  $html .= $v['menu_item_name']."</a></li>\n";
+                  $html .= "<span>".$v['menu_item_name']."</span></a></li>\n";
             }
         }
         // */foreach

@@ -2,7 +2,6 @@
 /*Esta clase hace referencia a todos los datos del usuario logado.*/
 /*session_start();*/
 
-  
 
  
  class redireccion_web { 
@@ -13,6 +12,7 @@
     public static $web_inicio_programa = "./views/pages/";
     public $url_encode = "";
     public $url_decode = "";
+    public $id_user="";
    /* public static  $db_conn = "";*/
 
 
@@ -26,6 +26,16 @@
    /*public  static function getUrlDecode($url_encode){
      
     }*/
+
+
+    public  static function getCerrarSesion(){
+     /* session_start();*/
+      $_SESSION['id_user']='';
+      $_SESSION['lgn_user']='';
+      $_SESSION['id_menu']='';
+      return self::$web_login;
+    }
+
 
     public  static function getUrlEncode($url_encode){
       $url_encode = str_replace("-","%",$url_encode);
@@ -54,9 +64,7 @@
    }
 
 
-    public static function getTienePermisoPrograma($url_menu,$id_user){
-
-     
+    public static function getTienePermisoPrograma($url_menu,$id_user){ 
          //self::getDb();
        $db_conn = self::getDb();
  
@@ -75,6 +83,37 @@
     }
 
     
+
+    public static function getExisteUsuario($name_user){
+
+       $db_conn = self::getDb();
+ 
+       $sql="SELECT count(id_user) existe from t_user where name_user=:name_user";
+       $stmt = $db_conn->db->prepare($sql);
+       $stmt->bindValue(':name_user', $name_user);
+       $stmt->execute();
+       $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+       return $rows[0]['existe'];
+       
+    }
+
+
+
+       public static function getTimeOut($id_user){
+       
+       $baja = "0";
+       $db_conn = self::getDb();
+       $sql="SELECT timeout from t_user where id_user=:id_user and baja=:baja";
+
+       $stmt = $db_conn->db->prepare($sql);
+       $stmt->bindValue(':id_user', $id_user);
+       $stmt->bindValue(':baja', $baja );
+       $stmt->execute();
+       $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+       return $rows[0]['timeout'];
+       
+    }
+
 
    public static function getDb() {
       require_once("class/pdo_db.php");
