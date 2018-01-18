@@ -1,4 +1,3 @@
-<?php // session_start(); ?>
 <!DOCTYPE html>
 <!--
 This is a starter template page. Use this page to start your new project from
@@ -23,6 +22,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
         page. However, you can choose any other skin. Make sure you
         apply the skin class to the body tag so the changes take effect. -->
   <link rel="stylesheet" href="views/dist/css/skins/skin-blue.min.css">
+<!-- Datatable CSS  -->
+  <link rel="stylesheet" href="views/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
+
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -31,10 +33,110 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
 
+  <!-- js propioas -->
+  <!-- jQuery 3 -->
+   <script src="views/bower_components/jquery/dist/jquery.min.js"></script>
+
+  <!-- */ js propios -->
+<!-- Datatable JS  -->
+<script src="views/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="views/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+<!-- */Datatable JS  -->
+
+<!-- inputmask JS  -->
+<script src="views/bower_components/inputmask/dist/jquery.inputmask.bundle.js"></script>
+<!-- <script src="views/bower_components/inputmask/dist/inputmask/inputmask.js"></script>
+<script src="views/bower_components/inputmask/dist/inputmask/jquery.inputmask.js"></script> -->
+<!-- */inputmask JS  -->
+
   <!-- Google Font -->
   <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+  href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 </head>
+<!-- Control timeout session. -->
+
+<script type="text/javascript">
+
+// Valida tiempo de sesiónS
+var idleTime = 0;
+//Primera vez 5 minutos.
+var endTime = parseInt(2); 
+$(document).ready(function () {
+    //Increment the idle time counter every minute.
+    var idleInterval = setInterval(timerIncrement, 60000); // chequea cada 1 minuto
+
+    //Zero the idle timer on mouse movement.
+    $(this).mousemove(function (e) {
+        idleTime = 0;
+    });
+    $(this).keypress(function (e) {
+        idleTime = 0;
+    });
+
+
+
+
+
+    // Sing Out 
+$( "#Signout" ).click(function() {
+     var data = { 
+      accion: "cerrar_sesion"
+    };
+    check_session(data);
+  });
+
+
+}); // */Document ready
+//------------------------------------
+
+
+
+
+
+function timerIncrement() {
+    idleTime = idleTime + 1;
+    // Chequea el tiempo de sesión
+    if (idleTime >= endTime) { 
+      var data = { 
+        accion: "check_session",
+        idleTime: idleTime,
+      };
+      check_session(data);
+    }
+}
+
+
+
+function check_session(data)
+{
+
+  $.ajax({
+    type: "POST",
+    url: "check_session.php",
+    data: data,
+    beforeSend: function(response){     
+    },
+    success: function(response){  
+      var json_obj = JSON.parse(response);
+      var expira = json_obj.expira;
+      var url = json_obj.url;
+      endTime = json_obj.timeout;
+  
+      if(expira == '1')
+      {
+        window.location.replace(url);
+      }
+    /*  console.log(json_obj);*/
+    }
+
+  });
+}
+
+
+
+
+
+</script>
 <!--
 BODY TAG OPTIONS:
 =================
@@ -56,8 +158,6 @@ desired effect
 |---------------------------------------------------------|
 -->
 <body class="hold-transition skin-blue sidebar-mini">
-<div class="wrapper">
-
   <!-- Main Header -->
   <header class="main-header">
 
@@ -181,7 +281,7 @@ desired effect
               <!-- The user image in the navbar-->
               <img src="views/dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
               <!-- hidden-xs hides the username on small devices so only the image appears. -->
-              <span class="hidden-xs"><?php echo $_SESSION['name_user']; ?></span>
+              <span class="hidden-xs"><?php echo $_SESSION['name_user'] ?></span>
             </a>
             <ul class="dropdown-menu">
               <!-- The user image in the menu -->
@@ -190,11 +290,11 @@ desired effect
 
                 <p>
                   Alexander Pierce - Web Developer
-                  <small>Member since Nov. 2012</small>
+                  <small>Miembro desde Nov. 2012</small>
                 </p>
               </li>
               <!-- Menu Body -->
-              <li class="user-body">
+           <!--    <li class="user-body">
                 <div class="row">
                   <div class="col-xs-4 text-center">
                     <a href="#">Followers</a>
@@ -205,16 +305,16 @@ desired effect
                   <div class="col-xs-4 text-center">
                     <a href="#">Friends</a>
                   </div>
-                </div>
+                </div> -->
                 <!-- /.row -->
-              </li>
+              <!-- </li> -->
               <!-- Menu Footer-->
               <li class="user-footer">
                 <div class="pull-left">
-                  <a href="#" class="btn btn-default btn-flat">Profile</a>
+                  <a href="#" class="btn btn-default btn-flat">Perfil</a>
                 </div>
                 <div class="pull-right">
-                  <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                  <a href="#" id="Signout" class="btn btn-default btn-flat">Cerrar sesión</a>
                 </div>
               </li>
             </ul>

@@ -1,0 +1,22 @@
+#### Documentación Git.
+
+# Crear ramas 
+git branch desarrollo
+
+# Cambio de rama 
+git checkout desarrollo
+
+# Vemos los cambios que están pendientes de subir
+git status
+
+#Listar ramas 
+git branch
+
+# Subimos cambios 
+git add .
+git commit -m "Esto es un cambio en la rama de desarrollo"
+#Subimos cambios a git
+git push origin desarrollo
+
+# Si quiero unir todos los cambios de la rama de desarrollo a la rama master.
+git merge desarrollo

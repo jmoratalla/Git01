@@ -1,7 +1,7 @@
 <?php
 // Simple PDO class for connecting to MySQL DB
 class ConectPDO {
-   public static $db = false;
+   const db = false;
    // Here you can set some defaults if no arguments are supplied when calling the class
    private $DBHOST = 'localhost';
    private $DBUSER = 'root';
@@ -15,7 +15,7 @@ class ConectPDO {
    public function __construct($dbhost = null, $dbname = null, $dbuser = null, $dbpass = null, $options = null) {
    // Any options passed as arguments here should be in array format as above
    // If you wanted to set attributes after being connected, use the setPDOAttrib function
-      if (self::$db === false) {
+      if (self::db === false) {
          $dsn = "mysql:host=" . (isset($dbhost) ? $dbhost : $this->DBHOST) . ";dbname=" . (isset($dbname) ? $dbname : $this->DBNAME);
          try {
             $this->db = new PDO($dsn, (isset($dbuser) ? $dbuser : $this->DBUSER), (isset($dbpass) ? $dbpass : $this->DBPASS), (isset($options) ? $options : $this->OPTIONS));

@@ -107,7 +107,7 @@
   // Fin de los permisos del menú
 
 
-   $sql="SELECT id_menu as menu_item_id, parent_id as menu_parent_id, title as menu_item_name,concat('/escandallo/?',url)as url,menu_order,icon FROM dynamic_menu ORDER BY menu_order";
+   $sql="SELECT id_menu as menu_item_id, parent_id as menu_parent_id, title as menu_item_name,concat('',url)as url,menu_order,icon FROM dynamic_menu ORDER BY menu_order";
    $stmt = $db_conn->db->prepare($sql);
    $stmt->execute();
    $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -154,12 +154,33 @@
 
         foreach ($arr as $key=>$v)
         {
-            if (array_key_exists('children', $v))
+
+               $progama_activo="";
+               $menu_activo='';
+               // Si tenemos un programa seleccionado.
+               if ( key($_GET) ==  redireccion_web::getUrlEncode($v['url']) )
+               {
+                $progama_activo="active";
+               }
+               $menu_activo = "";
+
+            if (array_key_exists('children', $v)) // Si tenemos programas, decimos que es memú
             {
-                $html .= "<li class='treeview'>\n";
+                              
+                 // Si tenemos un menú seleccionado.
+                foreach ($arr[$key]['children'] as $key2=>$v2)
+                {
+                  if($v2['url'] == redireccion_web::getUrlDecode(key($_GET))){
+                    $menu_activo = "active menu-open";
+                    break;
+                  }
+              
+                }
+
+                $html .= "<li class='treeview ".$menu_activo."'>\n";
                 $html .= '<a href="#">
                                 <i class="'.$v['icon'].'"></i>
-                                <span >'.$v['menu_item_name'].'</span>
+                                <span>'.$v['menu_item_name'].'</span>
                                 <span class="pull-right-container">
                                 <i class="fa fa-angle-left pull-right"></i>
                                 </span>
@@ -169,16 +190,17 @@
                 $html .= "</li>\n";
             }
             else{
-          $html .= '<li><a href="'.redireccion_web::getUrlEncode($v['url']).'">';
-          if($urutan==0)
-          {
-            $html .=  '<i class="'.$v['icon'].'"></i>';
-          }
-          if($urutan==1)
-          {
-            $html .=  '<i class="fa fa-circle-o"></i>';
-          }
-          $html .= "<span>".$v['menu_item_name']."</span></a></li>\n";}
+                  $html .= '<li class="'.$progama_activo.'"><a href="?'.redireccion_web::getUrlEncode($v['url']).'">';
+                  if($urutan==0)
+                  {
+                    $html .=  '<i class="'.$v['icon'].'"></i>';
+                  }
+                  if($urutan==1)
+                  {
+                    $html .=  '<i class="fa fa-circle-o"></i>';
+                  }
+                  $html .= "<span>".$v['menu_item_name']."</span></a></li>\n";
+            }
         }
         // */foreach
         $html .= "</ul>\n";

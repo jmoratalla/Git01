@@ -110,7 +110,7 @@ session_destroy();
     <!-- /.social-auth-links -->
 
     <a href="#">He olvidado mi contraseña</a><br>
-    <a href="register.html" class="text-center">Crear cuenta</a>
+    <a href="register.php" class="text-center">Crear cuenta</a>
 
   </div>
   <!-- /.login-box-body -->

@@ -2,7 +2,7 @@
 <?php 
       // En el caso de no encontrar o no tener permisos, mostraremos no encontrada
       if(  $muestro_programa != "home" ){
-          include($muestro_programa);
+          include($muestro_programa); 
       }else{
 ?>
 
@@ -26,6 +26,7 @@
     <!--   ------------------------
         | Your Page Content Here |
         ------------------------ -->
+
         <center><p style="font-size: 1000%;color:#AED6F1">Escandalia</p></center>
 
     </section>
@@ -33,7 +34,7 @@
   </div>
   <!-- /.content-wrapper -->
 <?php
-      }
+      } //* Fin del if
  ?>
 
 
@@ -129,7 +130,7 @@
 <!-- REQUIRED JS SCRIPTS -->
 
 <!-- jQuery 3 -->
-<script src="views/bower_components/jquery/dist/jquery.min.js"></script>
+<!-- <script src="views/bower_components/jquery/dist/jquery.min.js"></script> -->
 <!-- Bootstrap 3.3.7 -->
 <script src="views/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <!-- AdminLTE App -->
@@ -140,4 +141,6 @@
      user experience. -->
 </body>
 </html>
+
+
 
