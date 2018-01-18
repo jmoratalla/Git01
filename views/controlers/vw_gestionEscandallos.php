@@ -140,8 +140,8 @@ function getTable_escandallo($_P)
         <th rowspan="1" colspan="1" class="text-center">Suma</th>
         <td rowspan="1" colspan="1" style="color:blue;" name="sum_cantidadPesada">0,000</td>
         <th rowspan="1" colspan="1" style="color:blue;"></th>
-        <td class="dt-body-right" rowspan="1" colspan="1" style="color:blue;">00,00</td>
-        <td rowspan="1" colspan="1" style="color:blue;" name="sum_merma">00,00</td>
+        <td class="dt-body-right" rowspan="1" colspan="1" style="color:blue;"></td>
+        <td rowspan="1" colspan="1" style="color:blue;" name="sum_merma"></td>
         <td rowspan="1" colspan="1" style="color:blue;" name="sum_pesoNeto">0,000</td>
         <td rowspan="1" colspan="1" style="color:blue;" name="sum_subtotal">0,000</td>
         <td rowspan="1" colspan="1" style="color:blue;"></td>
@@ -160,13 +160,7 @@ function getTable_escandallo($_P)
 
 <script>
 	$(document).ready(function() {
-   
-
-/*   $('#i_merma').mouseout(function() {
-
-  });
-*/
-
+   // Inicialización del DataTable()
    initDT();
 
    $('#i_ingrediente').on('keyup', function (e) {
@@ -184,7 +178,7 @@ function getTable_escandallo($_P)
    /* Metodo antiguo de insertar una fila, pero no es con funciones dataTables. Se ha actualizado.  
      var row = $('<tr>');
       row.append('<td>'+ingrediente+'</td>')
-      .append('<td><div class="input-group"><input id="i_cantidad" name="i_cantidad"  type="text" class="form-control"><span class="input-group-addon" onclick="modifica_medida(this)" style=" cursor: pointer; cursor: hand; color:blue;">KG</span></div></td>')
+      .append('<td><div class="input-group"><input id="i_cantidadPesada" name="i_cantidadPesada"  type="text" class="form-control"><span class="input-group-addon" onclick="modifica_medida(this)" style=" cursor: pointer; cursor: hand; color:blue;">KG</span></div></td>')
       .append('<td>#</td>')
       .append('<td><input id="i_coste_unitario" type="text" class="form-control"></td>')
       .append('<td><input name="i_merma" id="i_merma" type="text" class="form-control" value="000"></td>')
@@ -198,19 +192,14 @@ function getTable_escandallo($_P)
 
         // agrega en el 1 row
         var rowNode = t
-        .row.add( [ ingrediente, '<div class="input-group"><input id="i_cantidad" name="i_cantidad" type="text" class="form-control" maxlength="5" value="0,000"><span class="input-group-addon" onclick="modifica_medida(this)" style=" cursor: pointer; cursor: hand; color:blue;">KG</span></div>', '#','<input id="i_coste_unitario" type="text" class="form-control" value="00,00">', '<input name="i_merma" id="i_merma" type="text" class="form-control" value="000">', '<input disabled name="i_pneto" id="i_pneto" type="text" class="form-control" value="0,000">', '0,000', '<button name="b_del_ingrediente" id="b_del_ingrediente" type="button" class="btn btn-danger pull-right"><i class="fa fa-trash-o" aria-hidden="true" ></i></button>' ] )
+        .row.add( [ ingrediente, '<div class="input-group"><input id="i_cantidadPesada" name="i_cantidadPesada" type="text" class="form-control" maxlength="5" value="0,000"><span class="input-group-addon" onclick="modifica_medida(this)" style=" cursor: pointer; cursor: hand; color:blue;">KG</span></div>', '#','<input id="i_coste_unitario" type="text" class="form-control" value="00,00">', '<input name="i_merma" id="i_merma" type="text" class="form-control" value="000">', '<input disabled name="i_pesoNeto" id="i_pesoNeto" type="text" class="form-control" value="0,000">', '0,000', '<button name="b_del_ingrediente" id="b_del_ingrediente" type="button" class="btn btn-danger pull-right"><i class="fa fa-trash-o" aria-hidden="true" ></i></button>' ] )
         .draw().node();
-
 
         $("#i_ingrediente").val('');
         $("#i_ingrediente").focus();
         bindeo_b_del_ingredie();
 
       }
-
-
-
-
       
     });
 
@@ -220,6 +209,11 @@ function getTable_escandallo($_P)
 
 
 	}); // document ready
+
+
+
+
+
 
 
 
@@ -238,75 +232,106 @@ function getTable_escandallo($_P)
 
 function bindeo_b_del_ingredie()
 {
-
-
-$("input[name^=i_cantidad]").off('focusout').focusout(function(){
-    var str = parseFloat( remplace_comma_to_point($(this).val())).toFixed(3);
-    $(this).val(str);
-    calcu_pesoNeto(this);
-    calculo_sumaTotal_table();
-  });
-
-
-$("input[name^=i_merma]").off('focusout').focusout(function()
-{
-
-  var str = $(this).val().trim();
-  var newPath= str.replace(' ','');
-  var log_str = newPath.length;
-
-  if( log_str < 3){
-    $(this).val("0"+newPath+"00" );
-  }else if(log_str == 3){
-     $(this).val(parseFloat( newPath ).toFixed(1) );
-  }
-  calcu_pesoNeto(this);
-}); 
-
-
-
-
-  $('input[id^=i_cantidad]').inputmask("9,999",{placeholder:" "});
-
+   // Inicializacion de las mascaras
+  $('input[id^=i_cantidadPesada]').inputmask("9,999",{placeholder:" "});
   $('input[name^=i_merma]').inputmask("99,9",{placeholder:" "});
   $('input[id^=i_coste_unitario]').inputmask("99,99",{placeholder:" "});
 
 
+// Selecciona todo el texto del input para poder escribir
+$("input[name^=i_]").off('focus').focus(function() {
+    var $this = $(this);
+    $this.select();
+
+    // Work around Chrome's little problem
+    $this.mouseup(function() {
+        // Prevent further mouseup intervention
+        $this.unbind("mouseup");
+        return false;
+    });
+});
   
-  //$('#table_escandallo tbody button[name^=b_del_ingredie]').off();
+
+
+
+
+$("input[name^=i_cantidadPesada]").off('keyup').keyup(function(){  
+  calcu_pesoNeto(this);
+  calculo_sumaTotal_table('cantidadPesada');
+  calculo_sumaTotal_table('pesoNeto');
+});
+
+$("input[name^=i_cantidadPesada]").off('focusout').focusout(function(){  
+ var str = parseFloat( remplace_comma_to_point($(this).val())).toFixed(3);
+ $(this).val(str);
+});
+
+
+
+$("input[name^=i_merma]").off('focusout').focusout(function()
+{
+ var str = $(this).val().trim();
+ var newPath= str.replace(' ','');
+ var log_str = newPath.length;
+
+  if( log_str < 3){
+    $(this).val("0"+newPath+"00" );
+  }else if(log_str == 3){
+   $(this).val(parseFloat( newPath ).toFixed(1) );
+  }
+}); 
+
+$("input[name^=i_merma]").off('keyup').keyup(function()
+{
+  calcu_pesoNeto(this);
+  calculo_sumaTotal_table('pesoNeto');
+});
+
+
+ 
+  
+  // Borrado de la fila
   $('#table_escandallo tbody button[name^=b_del_ingredie]').off('click').on( 'click', function (){
-    t.row( $(this).closest('tr') ).remove().draw();
+     t.row( $(this).closest('tr') ).remove().draw();
+      calculo_sumaTotal_table('cantidadPesada');
+      calculo_sumaTotal_table('pesoNeto');
   } );
 
-  $("#table_escandallo tbody input[name^=i_merma]").focus(function() {
-   $(this).select();
- });
 
 
 
-}
+}  // Fin function bindeo_b_del_ingredie()
 
 
 
 
-function calculo_sumaTotal_table()
+function calculo_sumaTotal_table(campo)
 {
 
-
-var total_cantodadPesada ='0.000';
+/* Parametros pasados 
+* i_cantidadPesada
+* i_pesoNeto
+*
+*/
 var dato = 0;
-/*var arr = [];*/
-$('#table_escandallo tbody input[name^=i_cantida]').each(function(index,value){
+// Sumatorio cantidad pesada 
+var total_cantodadPesada ='0.000';
+$('#table_escandallo tbody input[name^=i_'+campo+']').each(function(index,value){
     console.log( value.value );
     dato = remplace_comma_to_point(value.value); 
     total_cantodadPesada = ( parseFloat(total_cantodadPesada) + parseFloat(dato) ).toFixed(3);
-
-
-   /*  arr.push(value.value);*/ //put elements into array
   });
+  $('#table_escandallo tfoot>tr>td[name=sum_'+campo+']').html(remplace_point_to_comma(total_cantodadPesada));
+// */Fin del sumatorio del peso neto
 
- console.log("calculo.: "+total_cantodadPesada);
-  $('#table_escandallo tfoot>tr>td[name=sum_cantidadPesada]').html(remplace_comma_to_point(total_cantodadPesada));
+// Sumatorio del peso neto
+/*var total_pesoNeto = '0.000';
+$('#table_escandallo tbody input[name^=i_pesoNeto]').each(function(index,value){
+    dato = remplace_comma_to_point(value.value); 
+    total_pesoNeto = ( parseFloat(total_pesoNeto) + parseFloat(dato) ).toFixed(3);
+  });
+  $('#table_escandallo tfoot>tr>td[name=sum_pesoNeto]').html(remplace_point_to_comma(total_pesoNeto));*/
+// */Fin del sumatorio del peso neto
 
 }
 
@@ -317,7 +342,7 @@ $('#table_escandallo tbody input[name^=i_cantida]').each(function(index,value){
 function calcu_pesoNeto(objeto)
 {
 
-  var str = remplace_comma_to_point($(objeto).closest("tr").find('td').eq(1).find("input[name=i_cantidad]").val());
+  var str = remplace_comma_to_point($(objeto).closest("tr").find('td').eq(1).find("input[name=i_cantidadPesada]").val());
   var cantPesada = parseFloat( str ).toFixed(3);
 
   var str = remplace_comma_to_point($(objeto).closest("tr").find('td').eq(4).find("input[name=i_merma]").val());
@@ -329,7 +354,7 @@ function calcu_pesoNeto(objeto)
    var merma = "00.0";
  }
   if(isNaN(cantPesada)) {
-   $(this).closest("tr").find('td').eq(1).find("input[name=i_cantidad]").val("0,000");
+   $(this).closest("tr").find('td').eq(1).find("input[name=i_cantidadPesada]").val("0,000");
    var cantPesada = "0.000";
  }
 
@@ -338,15 +363,13 @@ function calcu_pesoNeto(objeto)
 
   if(pneto==0)
   {
-     $(objeto).closest("tr").find('td').eq(5).find("input[name=i_pneto]").val("0,000");
+     $(objeto).closest("tr").find('td').eq(5).find("input[name=i_pesoNeto]").val("0,000");
   }
   else
   {
    
-     $(objeto).closest("tr").find('td').eq(5).find("input[name=i_pneto]").val( remplace_point_to_comma(pneto.toFixed(3)) );
+     $(objeto).closest("tr").find('td').eq(5).find("input[name=i_pesoNeto]").val( remplace_point_to_comma(pneto.toFixed(3)) );
   }
- 
-
 
 }
 
