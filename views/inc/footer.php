@@ -2,7 +2,7 @@
 <?php 
       // En el caso de no encontrar o no tener permisos, mostraremos no encontrada
       if(  $muestro_programa != "home" ){
-          include($muestro_programa);
+          include($muestro_programa); 
       }else{
 ?>
 

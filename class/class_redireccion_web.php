@@ -98,6 +98,21 @@
     }
 
 
+    public static function setUsuario($name_user,$pass_user){
+
+       $db_conn = self::getDb();
+       $id_menu ='1';
+       $sql="INSERT INTO t_user (name_user, pass_user, id_menu)
+              VALUES ( lower(:name_user),  SHA1(:pass_user), :id_menu)";
+       $stmt = $db_conn->db->prepare($sql);
+       $stmt->bindValue(':name_user', $name_user);
+       $stmt->bindValue(':pass_user', $pass_user);
+       $stmt->bindValue(':id_menu', $id_menu);
+       $stmt->execute();
+ }
+
+
+
 
        public static function getTimeOut($id_user){
        
@@ -124,6 +139,19 @@
       return  $db;
    
    }
+
+
+
+    public static function setUltIngreso($id_user){
+
+       $db_conn = self::getDb();
+       $id_menu ='1';
+       $sql="UPDATE t_user SET ult_ingreso = NOW() WHERE id_user=:id_user;";
+       $stmt = $db_conn->db->prepare($sql);
+       $stmt->bindValue(':id_user', $id_user);
+       $stmt->execute();
+ }
+
 
    /* public static function getNombreUsuario(){
        return new self('Fernando', 'Gaitan', 26);

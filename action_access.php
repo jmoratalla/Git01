@@ -46,15 +46,18 @@ function registar_usuario($_P,$db_conn){
 	$error = array();
 	$error['logado']="no";
 	$error['url']=redireccion_web::$web_login;
+
+
+
 	if($email=="")
 	{
 		$error['e_email']="<i class='fa fa-times-circle-o'></i> Correo obligatorio";
-	}
-	if (! isValidEmail($email) )
+	}else if( ! isValidEmail($email) )
 	{
 		$error['e_email']="<i class='fa fa-times-circle-o'></i> Correo no valido";
 	}
-    if( $password =="" )
+	   
+	if( $password =="" )
 	{
 		$error['e_password']="<i class='fa fa-times-circle-o'></i> Password obligatorio";
 	}
@@ -70,20 +73,19 @@ function registar_usuario($_P,$db_conn){
 	}
 
 
-/*
-	if(redireccion_web::getExisteUsuario)
-	{
-		$error['email']="Usuario ya registrado";
-	}else
-	{
-		$error['redireccionadmos']=":)";
-	}*/
+
+	if(redireccion_web::getExisteUsuario($email))
+		{
+			$error['e_email']="<i class='fa fa-exclamation'></i> Usuario ya registrado";
+		}
+
 
 	if ( count($error)>2 )
 	{
 		echo json_encode($error);
 	}else
 	{
+		redireccion_web::setUsuario($email,$password);
 		$_SESSION['name_user'] = $email; 
 		$error['logado']="si";
 		echo json_encode($error);
@@ -105,7 +107,7 @@ function validar_usuario_login($_P,$db_conn){
 	$pass_user = $_P['lgn_password'];
 	$name_user = trim($_P['lgn_user']);
 
-	$sql="SELECT id_user,name_user, id_menu from t_user where name_user=UPPER(:name_user) and pass_user=:pass_user";
+	$sql="SELECT id_user,name_user, id_menu from t_user where name_user=:name_user and pass_user=SHA1(:pass_user)";
 	$stmt = $db_conn->db->prepare($sql);
 	$stmt->bindValue(':name_user', $name_user);
 	$stmt->bindValue(':pass_user', $pass_user);
@@ -128,7 +130,8 @@ function validar_usuario_login($_P,$db_conn){
 		}
 		
 	}
-
+	
+   redireccion_web::setUltIngreso($_SESSION['id_user']);
    header('Location: '.redireccion_web::$web_inicio_menu);
 }
 

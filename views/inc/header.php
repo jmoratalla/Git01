@@ -22,6 +22,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
         page. However, you can choose any other skin. Make sure you
         apply the skin class to the body tag so the changes take effect. -->
   <link rel="stylesheet" href="views/dist/css/skins/skin-blue.min.css">
+<!-- Datatable CSS  -->
+  <link rel="stylesheet" href="views/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
+
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -35,6 +38,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
    <script src="views/bower_components/jquery/dist/jquery.min.js"></script>
 
   <!-- */ js propios -->
+<!-- Datatable JS  -->
+<script src="views/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="views/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+<!-- */Datatable JS  -->
+
+<!-- inputmask JS  -->
+<script src="views/bower_components/inputmask/dist/jquery.inputmask.bundle.js"></script>
+<!-- <script src="views/bower_components/inputmask/dist/inputmask/inputmask.js"></script>
+<script src="views/bower_components/inputmask/dist/inputmask/jquery.inputmask.js"></script> -->
+<!-- */inputmask JS  -->
 
   <!-- Google Font -->
   <link rel="stylesheet"
@@ -47,7 +60,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 // Valida tiempo de sesiónS
 var idleTime = 0;
 //Primera vez 5 minutos.
-var endTime = parseInt(5); 
+var endTime = parseInt(2); 
 $(document).ready(function () {
     //Increment the idle time counter every minute.
     var idleInterval = setInterval(timerIncrement, 60000); // chequea cada 1 minuto
@@ -113,7 +126,7 @@ function check_session(data)
       {
         window.location.replace(url);
       }
-      console.log(json_obj);
+    /*  console.log(json_obj);*/
     }
 
   });

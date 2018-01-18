@@ -144,6 +144,8 @@
      $('span[id^=e]').find('label').html('');
      $('span[id^=e]').closest('div').removeClass('has-error');
      $('span[id^=e]').closest('div').addClass('has-feedback');
+
+     $('span[id^=e]').prev('span').toggle(true);
     },
     success: function(response){
 
@@ -153,10 +155,12 @@
 
       if( json_obj['logado'] == 'no')
       {
-        alert("error");
+
         $.each(json_obj,function(i, value){
           $('#'+i).toggle(true); 
           $('#'+i).find('label').html(value);
+
+          $('#'+i).prev('span').toggle(false);
 
           $('#'+i).closest('div').removeClass('has-feedback');
           $('#'+i).closest('div').addClass('has-error');
