@@ -21,22 +21,27 @@ $(function() {
 
      $( "#b_save_escandallo" ).click(function() {
 
-     	var data = t.$(':input').serialize();
+        // Si la tabla no existe 
+        if(!$('#table_escandallo').length) {
+             return false;
+        }
+        else if( t.rows().count() == 0 )
+        { // si no tebemos ingredientes a guardar
+          alert("No es posible guardar un escandallo sin ingredientes. Si lo desea puede eliminarlo.")
+          return false;
+        }
 
-     	$(t.rows().eq(0)).find('tr').each(function(){
-     	
-     		data += '&' + this.id + '=' + encodeURIComponent($(this).text());
-     	});
 
-     	//console.log(data);
+        // procedemos a guardar el escandallo
+        var data = t.$(':input').serialize();
 
-     	var num_row = 0;
-     	var obj = {};
-     	jsonObj = [];	
-     	t.rows().eq(0).each( function ( index ) {
-     		/*console.log( $(t.row( index ).node()).find('[name*=ingrediente]').val() );
-     		console.log(t.cell(index,0).nodes().to$().find('span').text());*/
-     
+        $(t.rows().eq(0)).find('tr').each(function(){
+
+            data += '&' + this.id + '=' + encodeURIComponent($(this).text());
+       });
+
+        var obj = {};
+        t.rows().eq(0).each( function ( index ) {
      		obj[index+'_nom_ingrediente']= t.cell(index,0).nodes().to$().find('span').text();
      		obj[index+'_cantidad_usada']= t.cell(index,1).nodes().to$().find('input').val();
      		obj[index+'_uni_medida_cant_usada']= t.cell(index,1).nodes().to$().find('span').text();
@@ -47,27 +52,20 @@ $(function() {
      		obj[index+'_total']= t.cell(index,6).nodes().to$().find('input').val();
      	});
 
-     	obj['sum_cantidadPesada'] = $('#table_escandallo>tfoot td[name=sum_cantidadPesada]').text();
-     	obj['sum_pesoNeto'] = $('#table_escandallo>tfoot td[name=sum_pesoNeto]').text();
-     	obj['sum_total'] = $('#table_escandallo>tfoot td[name=sum_total]').text();
+        obj['sum_cantidadPesada'] = $('#table_escandallo>tfoot td[name=sum_cantidadPesada]').text();
+        obj['sum_pesoNeto'] = $('#table_escandallo>tfoot td[name=sum_pesoNeto]').text();
+        obj['sum_total'] = $('#table_escandallo>tfoot td[name=sum_total]').text();
 
-     	
-     	var data = JSON.stringify(obj);
+        var data = JSON.stringify(obj);
 
-     	var datos = { accion: "setTable_escandallo", 
-                        'num_row': t.rows().count() ,
-                        'escandallo_nombre': $('#nombre_escandallo').text().trim(),
-                        'data': data, 
-                        "rand": parseInt(Math.random() * 999) };
+        var datos = { accion: "setTable_escandallo", 
+        'num_row': t.rows().count() ,
+        'escandallo_nombre': $('#nombre_escandallo').text().trim(),
+        'data': data, 
+        "rand": parseInt(Math.random() * 999) };
 
-     	setTable_escandallo(datos);
+        setTable_escandallo(datos);
      });
-
-
-
-
-
-
 
 
 
@@ -77,13 +75,17 @@ $(function() {
      		$('#b_guardar_Modal_add_escandallo').click();
      	}
      });
+
      $( "#b_guardar_Modal_add_escandallo" ).click(function() {
      	var i_nuevo_escandallo = $('#i_nuevo_escandallo').val().toUpperCase();
      	if( i_nuevo_escandallo ){
      		var datos = { accion: "getTable_escandallo", nombre_escandallo: i_nuevo_escandallo};
      		getTableIngredientes(datos);
      	}
+           $("#b_save_escandallo").parent('div').prop('hidden', false);
      });
+
+
 
 
 });// */ Document ready

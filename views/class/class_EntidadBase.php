@@ -15,22 +15,13 @@ class EntidadBase
             $this->table = $table;
         	require_once("../../class/pdo_db.php");
             $this->db_conn = new ConectPDO();
-
-         
-/*      require_once 'Conectar.php';
-        $this->conectar=new Conectar();
-        $this->db=$this->conectar->conexion();*/
     }
-     
-  /*  public function getConetar(){
-        return $this->conectar;
-    }*/
+
      
     public function db_conn(){
         return $this->db_conn;
     }
      
-
 
     public function getAll($column_order=""){
 
