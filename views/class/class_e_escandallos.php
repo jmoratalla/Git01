@@ -59,18 +59,16 @@ class Escandallos extends EntidadBase{
     }
  
     public function saveEscandallo(){
-    	echo $this->table;
 
-    
     	$sql="INSERT INTO $this->table (escandallo_nombre,fecha_create)
     	VALUES(:escandallo_nombre, NOW())";
 
     	$stmt = $this->db_conn->db->prepare($sql);
     	$stmt->bindValue(':escandallo_nombre', $this->escandallo_nombre);
     	$stmt->execute();
-
-
-        return "correcto";
+        $id = $this->db_conn->db->lastInsertId();
+    
+        return $id;
     }
 
 

@@ -40,10 +40,10 @@
               </div>
 
               <div class="col-xs-6 col-sm-6 col-md-6">
-                  <div style="float: right;">
+                <div style="float: right;" hidden>
                  <button type="button" class="btn btn-default" style="margin-right:  10px" id="b_save_escandallo"><i class="fa fa-floppy-o" aria-hidden="true"></i></button>
                  <button type="button" class="btn btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
-                 </div> 
+               </div> 
              </div>
 
            </div>

@@ -52,17 +52,27 @@ function setTable_escandallo($_P, $db_conn )
 /*  require_once("../class/class_EntidadBase.php");
   $EntidadEscandallos = new EntidadBase("t_user");
   var_dump($EntidadEscandallos->getAll("id_user"));*/
+require_once("../class/class_controller_escandallos.php");
+$Controller_escadallos = new Controller_escadallos();
 
+// array('pagination' => $pagination, 'update_form' => $updateFrom->createView() ) 
+$Controller_escadallos->set_newEscanallo(array(
+    'escandallo_id' => '', 
+    'escandallo_nombre' => $_P['escandallo_nombre'], 
+    'num_row' => $_P['num_row'], 
+    'data' => $_P['data'], 
+    ));
+
+
+
+ die();
   require_once("../class/class_e_escandallos.php");
   $escandallos = new Escandallos();
- 
-
   $escandallos->setEscandallo_nombre($_P['escandallo_nombre']);
+  $escandallos->saveEscandallo();
 
 
 
-
- echo  $escandallos->saveEscandallo();
 
   die();
 
@@ -77,7 +87,7 @@ function setTable_escandallo($_P, $db_conn )
     //setEscandallo_nombre($escandallo_nombre);
   }	
 
-  echo "/n @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ /n";
+
  
   
   
