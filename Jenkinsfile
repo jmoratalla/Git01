@@ -1,25 +1,31 @@
 pipeline
 {
-agent any
-stages
-{
-    stage("Dias de la semana")
-    {
-        steps
-        {
-            
-            script
-            {
-                def dia = new Date().getDay()
-                def map = [1: "Lunes", 2: "Martes", 3: "Miercoles", 4:"Jueves", 5:"Viernes", 6:"Sabado", 7: "Domingo"]
-                println dia
-                println map
-                
-                
-            }
-        }
-        
-    }
-}
+	agent any
+	environment
+	{
+	    def USERNAME = ${env.USERNAME}
+	}
+	stages
+	{
+	    stage("Dias de la semana")
+	    {
+	        steps
+	        {
+	            
+	            script
+	            {
+	                def dia = new Date().getDay()
+
+	                println "Usuario: " + USERNAME
+	                if ( dia == 1 ) {
+	                	println "Hoy es lunes y no hacemos nada"
+	                }
+	                
+	                
+	            }
+	        }
+	        
+	    }
+	}
     
 }
