@@ -19,13 +19,13 @@ pipeline
 	                println "Usuario de la máquina: " + USERNAME
 
 	                if (dia == 2) {
-				println "Holaa hoy toca descanso también..."
-				git branch: "master", url: "https://github.com/jmoratalla/Git01.git"
+				println "Holaa ${USERNAME} hoy toca descanso también..."
 		    	} else if (dia == 3) {
 				println "Hoy hace un bonito día..."
 		    	} else if (dia == 4) {
 				println "clonamos repo..."
 				git branch: "main", url: "https://github.com/Ripper2021/CICD_Jenkins.git"
+				/* git branch: "master", url: "https://github.com/jmoratalla/Git01.git" */
 		    	} else {
 				println "Hoy descanso..."
 		    	}
