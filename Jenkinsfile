@@ -20,7 +20,7 @@ pipeline
 
 	                if (dia == 2) {
 				println "Holaa..."
-				git branch: "main", url: "https://github.com/jmoratalla/Git01.git"
+				git branch: "main", url: "https://github.com/Ripper2021/CICD_Jenkins.git"
 		    	} else if (dia == 3) {
 				println "Hoy hace un bonito día..."
 		    	} else if (dia == 4) {
