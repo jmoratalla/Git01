@@ -15,9 +15,9 @@ pipeline
 	            script
 	            {
 	                def dia = new Date().getDay()
-
+			print "Día de la semana: "+ dia
 	                println USERNAME
-	                if ( dia == 1 ) {
+	                if ( dia == "1" ) {
 	                	println "Hoy es lunes y no hacemos nada"
 	                }
 	                
