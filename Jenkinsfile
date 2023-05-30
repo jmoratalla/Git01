@@ -20,6 +20,7 @@ pipeline
 
 	                if (dia == 2) {
 				println "Holaa hoy toca descanso también..."
+				git branch: "master", url: "https://github.com/jmoratalla/Git01.git"
 		    	} else if (dia == 3) {
 				println "Hoy hace un bonito día..."
 		    	} else if (dia == 4) {
