@@ -3,7 +3,7 @@ pipeline
 	agent any
 	environment
 	{
-	    def USERNAME = "El usuario actual: ${env.USERNAME}"
+	    def USERNAME = "El usuario actual: ${env.USER}"
 	}
 	stages
 	{
