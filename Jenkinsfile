@@ -3,7 +3,7 @@ pipeline
 	agent any
 	environment
 	{
-	    def USERNAME = ${env.USERNAME}
+	    def USERNAME = "El usuario actual: ${env.USERNAME}"
 	}
 	stages
 	{
@@ -16,7 +16,7 @@ pipeline
 	            {
 	                def dia = new Date().getDay()
 
-	                println "Usuario: " + USERNAME
+	                println USERNAME
 	                if ( dia == 1 ) {
 	                	println "Hoy es lunes y no hacemos nada"
 	                }
