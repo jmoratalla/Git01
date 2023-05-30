@@ -16,10 +16,19 @@ pipeline
 	            {
 	                def dia = new Date().getDay()
 			print "Día de la semana: "+ dia
-	                println USERNAME
-	                if ( dia == "1" ) {
-	                	println "Hoy es lunes y no hacemos nada"
-	                }
+	                println "Usuario de la máquina: " + USERNAME
+
+	                if (dia == 2) {
+				println "Holaa..."
+				git branch: "main", url: "https://github.com/jmoratalla/Git01.git"
+		    	} else if (dia == 3) {
+				println "Hoy hace un bonito día..."
+		    	} else if (dia == 4) {
+				println "clonamos repo..."
+				git branch: "main", url: "https://github.com/jmoratalla/Git01.git"
+		    	} else {
+				println "Hoy descanso..."
+		    	}
 	                
 	                
 	            }
